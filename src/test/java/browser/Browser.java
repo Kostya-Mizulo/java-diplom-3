@@ -1,6 +1,7 @@
 package browser;
 
 import com.codeborne.selenide.Configuration;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class Browser {
     public static void initDriver(){

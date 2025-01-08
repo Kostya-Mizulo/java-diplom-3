@@ -18,6 +18,7 @@ abstract public class BaseTest {
     public void setup(){
         initDriver();
         Configuration.timeout = 4000;
+        Configuration.browserSize = "1920x1080";
         open(MainPage.MAIN_PAGE_URL);
     }
 

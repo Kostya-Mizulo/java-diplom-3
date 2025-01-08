@@ -1,5 +1,6 @@
 package tests;
 
+import com.codeborne.selenide.As;
 import helpers.User;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,5 +35,44 @@ public class MainPageTest extends BaseTest {
                 .goToMainPageViaStellarBurgerLogo();
 
         Assert.assertTrue(new MainPage().isCreateBurgerTextElementDisplayed());
+    }
+
+    @Test
+    public void checkBunsTabOpenedInFirstPlaceTest(){
+        Assert.assertTrue(new MainPage().isBunsTabSelected());
+    }
+
+    @Test
+    public void checkSaucesTabSelectedIfClickBunsTabTest(){
+        new MainPage().selectSaucesTab();
+        Assert.assertTrue(new MainPage().isSaucesTabSelected());
+    }
+
+    @Test
+    public void checkFillingsTabSelectedIfClickBunsTabTest(){
+        new MainPage().selectFillingsTab();
+        Assert.assertTrue(new MainPage().isFillingsTabSelected());
+    }
+
+    @Test
+    public void checkScrolledToBunsHeaderIfClickOnBunsTabTest() {
+        new MainPage()
+                .selectSaucesTab()
+                        .selectBunsTab();
+        Assert.assertTrue(new MainPage().isBunsHeaderInMenuVisible());
+    }
+
+    @Test
+    public void checkScrolledToSaucesHeaderIfClickOnSaucesTabTest() {
+        new MainPage()
+                .selectSaucesTab();
+        Assert.assertTrue(new MainPage().isSaucesHeaderInMenuVisible());
+    }
+
+    @Test
+    public void checkScrolledToFillingsHeaderIfClickOnFillingsTabTest() {
+        new MainPage()
+                .selectFillingsTab();
+        Assert.assertTrue(new MainPage().isFillingsHeaderInMenuVisible());
     }
 }
