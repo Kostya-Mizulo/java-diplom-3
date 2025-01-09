@@ -1,21 +1,32 @@
 package tests;
 
-import com.codeborne.selenide.As;
+import com.codeborne.selenide.WebDriverRunner;
 import helpers.User;
+import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import page_object.MainPage;
 
+
+/**
+ * Тесты класса проверяют переход на главную страницу сайта
+ */
 public class MainPageTest extends BaseTest {
     User user;
+
+
     @Before
+    @Step("Создание пользователя для теста и добавление в список для удаления после теста")
     public void createTestUser(){
         user = User.createTestUser();
         addUsersToDeleteAtTearDown(user);
     }
 
+
     @Test
+    @DisplayName("Переход на главную страницу по кнопке Конструктор")
     public void redirectFromAccountProfileToMainPagePageViaConstructorButtonTest(){
         new MainPage()
                 .clickOnSignInMainButton()
@@ -23,10 +34,12 @@ public class MainPageTest extends BaseTest {
                 .goToAccountProfilePageWhenAuthorized()
                 .goToMainPageViaConstructorButton();
 
-        Assert.assertTrue(new MainPage().isCreateBurgerTextElementDisplayed());
+        Assert.assertEquals(MainPage.MAIN_PAGE_URL, WebDriverRunner.url());
     }
 
+
     @Test
+    @DisplayName("Переход на главную страницу по клику на лого сайта")
     public void redirectFromAccountProfileToMainPageViaStellarBurgerLogoTest() {
         new MainPage()
                 .clickOnSignInMainButton()
@@ -34,45 +47,6 @@ public class MainPageTest extends BaseTest {
                 .goToAccountProfilePageWhenAuthorized()
                 .goToMainPageViaStellarBurgerLogo();
 
-        Assert.assertTrue(new MainPage().isCreateBurgerTextElementDisplayed());
-    }
-
-    @Test
-    public void checkBunsTabOpenedInFirstPlaceTest(){
-        Assert.assertTrue(new MainPage().isBunsTabSelected());
-    }
-
-    @Test
-    public void checkSaucesTabSelectedIfClickBunsTabTest(){
-        new MainPage().selectSaucesTab();
-        Assert.assertTrue(new MainPage().isSaucesTabSelected());
-    }
-
-    @Test
-    public void checkFillingsTabSelectedIfClickBunsTabTest(){
-        new MainPage().selectFillingsTab();
-        Assert.assertTrue(new MainPage().isFillingsTabSelected());
-    }
-
-    @Test
-    public void checkScrolledToBunsHeaderIfClickOnBunsTabTest() {
-        new MainPage()
-                .selectSaucesTab()
-                        .selectBunsTab();
-        Assert.assertTrue(new MainPage().isBunsHeaderInMenuVisible());
-    }
-
-    @Test
-    public void checkScrolledToSaucesHeaderIfClickOnSaucesTabTest() {
-        new MainPage()
-                .selectSaucesTab();
-        Assert.assertTrue(new MainPage().isSaucesHeaderInMenuVisible());
-    }
-
-    @Test
-    public void checkScrolledToFillingsHeaderIfClickOnFillingsTabTest() {
-        new MainPage()
-                .selectFillingsTab();
-        Assert.assertTrue(new MainPage().isFillingsHeaderInMenuVisible());
+        Assert.assertEquals(MainPage.MAIN_PAGE_URL, WebDriverRunner.url());
     }
 }

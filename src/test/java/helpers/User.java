@@ -2,11 +2,14 @@ package helpers;
 
 import api.UserApi;
 import com.github.javafaker.Faker;
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
-import tests.BaseTest;
-
 import java.util.ArrayList;
 
+
+/**
+ * Класс нужен для restAssured, в запросах сериализуется в json для отправки к апи сайта.
+ */
 public class User {
     private String email;
     private String password;
@@ -37,6 +40,13 @@ public class User {
         this.password = password;
     }
 
+
+    /**
+     * Метод генерирует объект "Пользователь" с рандомными именем, почтой, паролем
+     * @param isPassCorrect boolean значение, указывает какой пароль должен сгенериться.
+     *                      true - валидный для регистрации, false - невалидный
+     */
+    @Step("Генерация рандомных данных для тестового пользователя")
     public static User generateRandomUserData(boolean isPassCorrect){
         Faker faker = new Faker();
         User user = new User();
@@ -44,9 +54,12 @@ public class User {
         user.setEmail(faker.internet().emailAddress());
         if (isPassCorrect) user.setPassword(faker.internet().password(6, 12));
         if (!isPassCorrect) user.setPassword(faker.internet().password(1, 5));
+
         return user;
     }
 
+
+    @Step("Создание тестового пользователя")
     public static User createTestUser(){
         UserApi userApi = new UserApi();
         User user = generateRandomUserData(true);
@@ -55,6 +68,8 @@ public class User {
         return user;
     }
 
+
+    @Step("Удаление тестового пользователя")
     public static void deleteUsers(ArrayList<User> users){
         UserApi userApi = new UserApi();
         for (User user : users){
